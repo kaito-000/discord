@@ -15,5 +15,6 @@ async def on_message(message):
         if client.user != message.author:
             m = "hello "+ message.author.name + "!"
             await message.channel.send(m)
+						await message.channel.send(message)
 
 client.run("NTk5ODEzODAwNzkwODUxNTk3.XSqqOQ.uGrGpvHxOjjJrCQCVJLIasMIcQo")
