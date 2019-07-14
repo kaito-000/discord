@@ -13,7 +13,7 @@ async def on_ready():
 async def on_message(message):
     if message.content.startswith("hello"):
         if client.user != message.author:
-            m = "hello"+ message.author.name + "!"
+            m = "hello "+ message.author.name + "!"
             await message.channel.send(m)
 
 client.run("NTk5ODEzODAwNzkwODUxNTk3.XSqqOQ.uGrGpvHxOjjJrCQCVJLIasMIcQo")
