@@ -21,20 +21,24 @@ function findFirstTextchannel(){
 	}
 }
 
-function callCommand(splitMessage){
+function callCommand(message){
+	let called = false;
 	for(commandName of commandMap){
-		if(commandName === splitMessage[0]){
-			commandMap[commandName](splitMessage);
+		if(commandName[0] === message.content.split(" ")[0]){
+			commandName[1](message);
+			called = true;
 		}
+	}
+	if(!called){
+		message.reply("sry I dont have any idea.");
 	}
 }
 
-function setSendTextchannel(splitMessage){
-	for(value of client.channels){
-		if(splitMesage[1] === value[1]){		
-		}
-	}
+function setSendTextchannel(message){
+	sendTextchannel = message.channel;
+	message.channel.send("I will send here!");
 }
+commandMap.set("!sendMe",setSendTextchannel);
 
 client.on("message", message =>{
 
@@ -42,8 +46,8 @@ client.on("message", message =>{
 		return;
 	}
 
-	if(message.content.startsWith("!"){
-		callCommand(message.split(" "));
+	if(message.content.startsWith("!")){
+		callCommand(message);
 	}
 	
 	if(message.content === "hello"){
