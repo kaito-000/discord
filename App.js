@@ -8,19 +8,6 @@ client.on('ready', () => {
 	console.log('ready...');
 });
 
-client.on("roleCreate", role =>{
-	const firstChannel = findFirstTextchannel();	
-	firstChannel.send("new role created!");
-});
-
-function findFirstTextchannel(){
-	for(key of client.channels){
-		if(key[1].type === "text"){
-			return key[1];
-		}
-	}
-}
-
 function callCommand(message){
 	let called = false;
 	for(commandName of commandMap){
@@ -30,7 +17,9 @@ function callCommand(message){
 		}
 	}
 	if(!called){
-		message.reply("sry I dont have any idea.");
+		message.reply("sry I dont have any idea.")
+      .then(message => console.log("undefined function was called.")
+      .catch(console.error);
 	}
 }
 
