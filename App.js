@@ -1,12 +1,37 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const token = 'NTk5ODEzODAwNzkwODUxNTk3.XSqqOQ.uGrGpvHxOjjJrCQCVJLIasMIcQo';
-let sendTextchannel = undefined;
+
 const commandMap = new Map();
 
-client.on('ready', () => {
-	console.log('ready...');
-});
+
+function findChannel(name){
+  for(value of client.channels){
+    if(value[1].name === name){
+      return value[1];
+    }
+  }
+}
+
+function makeVoicememberList(voiceChannel){
+  const list = [];
+  for(value of voiceChannel.members){
+    
+  }
+}
+
+function teamSuffle(message){
+  const members = [];
+  const channel = findChannel(message.content.split(" ")[1]);
+  
+  message.reply(`
+    yes ${message.author.username}
+    I make 2 teams in this voicechannel
+    ${teams}`)
+    .then(message => console.log("team maked"))
+    .catch(console.error);
+}
+commandMap.set("!team",teamSuffle);
 
 function callCommand(message){
 	let called = false;
@@ -18,19 +43,17 @@ function callCommand(message){
 	}
 	if(!called){
 		message.reply("sry I dont have any idea.")
-      .then(message => console.log("undefined function was called.")
+      .then(message => console.log("undefined function was called."))
       .catch(console.error);
 	}
 }
 
-function setSendTextchannel(message){
-	sendTextchannel = message.channel;
-	message.channel.send("I will send here!");
-}
-commandMap.set("!sendMe",setSendTextchannel);
+client.on('ready', () => {
+	console.log('ready...');
+});
 
+//メッセージに対するイベント
 client.on("message", message =>{
-
 	if(message.author.bot){
 		return;
 	}
@@ -40,8 +63,6 @@ client.on("message", message =>{
 	}
 	
 	if(message.content === "hello"){
-		const channel = message.channel;
-		const author = message.author.username;
 		const reply_text = "hello :)";
 		message.reply(reply_text)
 			.then(message => console.log(`sent message: ${reply_text}`))
