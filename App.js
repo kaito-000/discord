@@ -4,19 +4,18 @@ const token = 'NTk5ODEzODAwNzkwODUxNTk3.XSqqOQ.uGrGpvHxOjjJrCQCVJLIasMIcQo';
 
 const commandMap = new Map();
 
-
-function findChannel(name){
-  for(value of client.channels){
-    if(value[1].name === name){
-      return value[1];
-    }
-  }
-}
-
 function makeVoicememberList(voiceChannel){
   const list = [];
   for(value of voiceChannel.members){
     
+  }
+}
+
+function findChannel(message){
+  for(channel of message.guild.channels){
+    if(channel.type === 'voice'){
+   //   for(
+    }
   }
 }
 
@@ -71,4 +70,5 @@ client.on("message", message =>{
 	}
 });
 
+console.log(commandMap);
 client.login(token);
