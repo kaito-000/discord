@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const token = 'token';
+const token = 'NTk5ODEzODAwNzkwODUxNTk3.XUP7QQ.3_OoDqs-eecJOoKH7x0RL-oqx58';
 
 const commandMap = new Map();
 
@@ -25,10 +25,7 @@ function findVoicechannel(message){
 }
 
 function randomSort(members){
-  for(member of members){
-    member.randomNum = Math.floor(Math.random() * 100);
-  }
-  members.sort((a,b) => a.randomNum - b.randomNum );
+  members.sort(() => Math.random() - Math.random());
 }
 
 function teamSuffle(message){
@@ -69,6 +66,8 @@ function callCommand(message){
     message.reply("sry I dont have any idea.")
       .then(message => console.log("undefined function was called."))
       .catch(console.error);
+  }else{
+    console.log("function called");
   }
 }
 
