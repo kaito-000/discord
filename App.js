@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const token = 'NTk5ODEzODAwNzkwODUxNTk3.XUP7QQ.3_OoDqs-eecJOoKH7x0RL-oqx58';
+const token = 'token';
 
 const commandMap = new Map();
 
