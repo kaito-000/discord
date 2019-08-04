@@ -1,6 +1,14 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const token = 'NTk5ODEzODAwNzkwODUxNTk3.XUP7QQ.3_OoDqs-eecJOoKH7x0RL-oqx58';
+const token = '';
+const http = require('http');
+
+const server = http.createServer((req,res) => {
+  res.writeHead(200,{"Content-Type": "text/plain"});
+  res.end("discord bot activated");
+});
+const port = process.env.PORT || 8080;
+server.listen(port);
 
 const commandMap = new Map();
 
@@ -30,7 +38,21 @@ function randomSort(members){
 
 function teamSuffle(message){
   const numOfTeam = message.content.split(" ")[1];
+
+  if(numOfTeam === undefined){
+    message.reply(
+      `plz input number of team
+      eg) !team 2`);
+    return;
+  }
+
   const channel = findVoicechannel(message);
+
+  if(channel === undefined){
+    message.reply("plz join voicechannel before make teams.");
+    return;
+  }
+
   const members = makeMemberList(channel);
   const numOfPlayer = members.length / numOfTeam;
   randomSort(members);
@@ -38,6 +60,8 @@ function teamSuffle(message){
   let replyText = `yes\n I try to make ${numOfTeam} teams in your voicechannel\n\n`;
   if(members.length < numOfTeam){
     replyText += `**Failed!**\nnot enough members in your voice channel to make ${numOfTeam} teams.`;
+  }else if(numOfTeam == 0){
+    replyText += `Are you serious?`; 
   }else{
     for(let i = 0; i < numOfTeam; i++){
       replyText += `**team${i + 1}**\n`;
