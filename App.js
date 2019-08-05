@@ -37,21 +37,18 @@ function randomSort(members){
     members.sort(() => Math.random() - Math.random());
 }
 
-function teamSuffle(message){
+function teamShuffle(message){
     const numOfTeam = message.content.split(' ')[1];
-
     if(numOfTeam === undefined){
-        message.reply(
-            `plz input number of team
-            eg) !team 2`);
-        return;
+        return message.reply('plz input number of team\neg) !team 2')
+            .then(() => true);
     }
 
     const channel = findVoicechannel(message);
 
     if(channel === undefined){
-        message.reply('plz join voicechannel before make teams.');
-        return;
+        return message.reply('plz join voicechannel before make teams.')
+            .then(() => true);
     }
 
     const members = makeMemberList(channel);
@@ -73,27 +70,28 @@ function teamSuffle(message){
         }
     } 
 
-    message.reply(replyText)
+    return message.reply(replyText)
         .then(() => console.log('team maked'))
-        .catch(console.error);
+        .then(() => true);
 }
-commandMap.set('!team',teamSuffle);
+commandMap.set('!team',teamShuffle);
 
 function callCommand(message){
-    let called = false;
-    for(let commandName of commandMap){
-        if(commandName[0] === message.content.split(' ')[0]){
-            commandName[1](message);
-            called = true;
-        }
-    }
-    if(!called){
-        message.reply('sry I dont have any idea.')
-            .then(() => console.log('undefined function was called.'))
-            .catch(console.error);
-    }else{
-        console.log('function called');
-    }
+    const commandName = message.content.split(' ')[0];
+    const notFoundCommand = (message) => {        
+        return message.reply('sry I dont have any idea.')
+            .then(() => false); 
+    };
+    const calledCommand = commandMap.has(commandName) ? 
+        commandMap.get(commandName) : notFoundCommand;
+    calledCommand(message)
+        .then((called) => {
+            if(called){
+                console.log('called function completed.');
+            }else{
+                console.log('undefined function called.');
+            }
+        });
 }
 
 client.on('ready', () => {
