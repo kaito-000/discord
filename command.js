@@ -1,40 +1,41 @@
 'use strict';
-const Discord = require('discord.js');
-const client = new Discord.Client();
 const commandMap = new Map();
+const siegeAllFields = require('./siegeMap.js');
+const numOfFieldsMap = siegeAllFields.numOfFieldsMap;
+const allFieldList = siegeAllFields.siegeAllFieldList;
 
 function textCheck(message){
-    return true;
+    return message ? true : false;
 }
 
 function diceRoll(faceNum){
-    const random = Math.floor(Math.random() * 10);
-    if(random == 0 || random > 6){
+    const random = Math.floor(Math.random() * (faceNum + 1));
+    if(random == 0 || random > faceNum){
         return diceRoll(faceNum);
     }
     return random;
 }
 
-function diceRollSum(message){ 　
-    if(textCheck(message)){ 
-        const dice = message.split(' ')[1].split('d');
-        const faceNum = dice[1];
-        const diceNum = dice[0];
-        let replyText = `${diceNum}d${faceNum} => [`;
-        let sum = 0;
-
-        for(i=0;i<diceNum;i++){
-            const resultDice = diceRoll(faceNum);
-            sum += resultDice;
-            replyText += `${resultDice} `;
+function pickMap(message){
+    let replyText = '';
+    if(textCheck(message)){
+        const mapPool = message.content.split(' ')[1];
+        if(numOfFieldsMap.has(mapPool)){
+            const randomFieldIndex = 
+                diceRoll(numOfFieldsMap.get(mapPool)) - 1;
+            const randomFieldname = 
+                allFieldList[randomFieldIndex].name;
+            replyText = `You play **${randomFieldname}**.`;
+        }else{
+            replyText = 'map pool is not defined.\nmap pool is "comp", "ranked" and "casual".';
         }
-        replyText += `] = ${sum}`;
+    }else{
+        replyText = 'plz input correct text.\neg)!map comp'; 
     }
     return message.reply(replyText)
-        .then(() => console.log('dice rolled'))
         .then(() => true);
 }
-commandMap.set('!dice', diceRollSum);
+commandMap.set('!map',pickMap);
 
 function makeMemberList(channel){
     const list = [];
