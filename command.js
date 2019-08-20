@@ -4,10 +4,6 @@ const siegeAllFields = require('./siegeMap.js');
 const numOfFieldsMap = siegeAllFields.numOfFieldsMap;
 const allFieldList = siegeAllFields.siegeAllFieldList;
 
-function textCheck(message){
-    return message ? true : false;
-}
-
 function diceRoll(faceNum){
     const random = Math.floor(Math.random() * (faceNum + 1));
     if(random == 0 || random > faceNum){
@@ -18,19 +14,15 @@ function diceRoll(faceNum){
 
 function pickMap(message){
     let replyText = '';
-    if(textCheck(message)){
-        const mapPool = message.content.split(' ')[1];
-        if(numOfFieldsMap.has(mapPool)){
-            const randomFieldIndex = 
-                diceRoll(numOfFieldsMap.get(mapPool)) - 1;
-            const randomFieldname = 
-                allFieldList[randomFieldIndex].name;
-            replyText = `You play **${randomFieldname}**.`;
-        }else{
-            replyText = 'map pool is not defined.\nmap pool is "comp", "ranked" and "casual".';
-        }
+    const mapPool = message.content.split(' ')[1];
+    if(numOfFieldsMap.has(mapPool)){
+        const randomFieldIndex = 
+            diceRoll(numOfFieldsMap.get(mapPool)) - 1;
+        const randomFieldname = 
+            allFieldList[randomFieldIndex].name;
+        replyText = `You play **${randomFieldname}**.`;
     }else{
-        replyText = 'plz input correct text.\neg)!map comp'; 
+        replyText = 'map pool is not defined.\nmap pool is "comp", "ranked" and "casual".';
     }
     return message.reply(replyText)
         .then(() => true);
@@ -99,4 +91,5 @@ function teamShuffle(message){
         .then(() => true);
 }
 commandMap.set('!team',teamShuffle);
+
 module.exports = commandMap;
