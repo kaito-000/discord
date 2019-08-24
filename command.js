@@ -10,7 +10,7 @@ const discordModule = require('./discordModule.js');
 const randomSort = require('./randomSort.js');
 const commandMap = new Map();
 
-const pickMapArg = /^(comp|ranked|casual)$/;
+const pickMapArg = [/^(comp|ranked|casual)$/];
 const pickMapDoing = 'reply';
 function pickMap(dontUse,arg){
     let replyText = '';
@@ -26,7 +26,7 @@ function pickMap(dontUse,arg){
 }
 commandMap.set('--map',new BotDo(pickMapArg, pickMapDoing, pickMap));
 
-const teamShuffleArg = /^[0~9]+$/;
+const teamShuffleArg = [/^[0-9]+$/];
 const teamShuffleDoing = 'reply';
 function teamShuffle({guild, author}, arg){
     const numOfTeam = arg[0];

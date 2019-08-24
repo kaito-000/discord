@@ -33,7 +33,7 @@ const BotDo = require('./BotDo.js');
 const misstypeMessage = 'Command is misstyped!\nplz check **--help** command';
 
 function callCommand(message){
-    const splitedMessage = message.content.split(' ')[0];
+    const splitedMessage = message.content.split(' ');
     const commandName = splitedMessage.shift();
     const arg = splitedMessage;
 
