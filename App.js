@@ -30,7 +30,7 @@ client.login(token);
 
 const commandMap = require('./command.js');
 const BotDo = require('./BotDo.js');
-const misstypeMessage = 'Command is misstyped!\nplz check **--help** command';
+const mistypeMessage = 'Command is mistyped!\nplz check **--help** command';
 
 function callCommand(message){
     const splitedMessage = message.content.split(' ');
@@ -40,7 +40,7 @@ function callCommand(message){
     const dummyArg = ' ';
     const sendEroor= 'reply';
     const notFoundCommand = new BotDo(
-        dummyArg, sendEroor, (() => misstypeMessage)
+        dummyArg, sendEroor, (() => mistypeMessage)
     );
 
     const calledCommand = commandMap.has(commandName) ? 
@@ -67,7 +67,7 @@ function argmentCheck(arg, correctArg){
 
 function commandRun(BotDo, message, arg){
     if(!argmentCheck(arg, BotDo.correctArg)){
-        return message.reply(misstypeMessage)
+        return message.reply(mistypeMessage)
             .then(() => false);
     }
     if(BotDo.whatDo === 'reply'){
