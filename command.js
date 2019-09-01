@@ -29,13 +29,18 @@ commandMap.set('--map',new BotDo(pickMapArg, pickMapDoing, pickMap));
 const teamShuffleArg = [/^[0-9]+$/];
 const teamShuffleDoing = 'reply';
 function teamShuffle({guild, author}, arg){
+    let replyText = '';
     const numOfTeam = arg[0];
     const channel = discordModule.findVoicechannel(guild, author);
+    if(!channel){
+        replyText = 'plz join voice channel before call team command.';
+        return replyText; 
+    }
+
     const members = discordModule.makeMemberList(channel);
     const numOfPlayer = members.length / numOfTeam;
     randomSort(members);
 
-    let replyText = '';
     if(members.length < numOfTeam){
         replyText = `**Failed!**\nnot enough members in your voice channel to make ${numOfTeam} teams.`;
     }else if(numOfTeam == 0){
@@ -53,4 +58,5 @@ function teamShuffle({guild, author}, arg){
 }
 commandMap.set('--team',new BotDo(teamShuffleArg, teamShuffleDoing, teamShuffle));
 
+const helpArg = '';
 module.exports = commandMap;
